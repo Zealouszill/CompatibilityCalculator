@@ -353,4 +353,7 @@ healthchecksdb
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 MigrationBackup/
 
+# My Custom Blocks:
+sqlite3/
+
 # End of https://www.gitignore.io/api/csharp
