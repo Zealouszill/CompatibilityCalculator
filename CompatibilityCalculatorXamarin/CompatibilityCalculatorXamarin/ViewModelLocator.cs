@@ -1,8 +1,10 @@
-
-
 using CompatibilityCalculatorDatabase;
 using CompatibilityCalculatorLogic;
 using CompatibilityCalculatorTypes;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace CompatibilityCalculatorXamarin
 {
@@ -19,6 +21,8 @@ namespace CompatibilityCalculatorXamarin
             //Main = new MainViewModel(testRepo);
             Main = new MainViewModel(testRepo);
 
+            Debug.WriteLine("This code segment was executed");
+            
         }
 
 

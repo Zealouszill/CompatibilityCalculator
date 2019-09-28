@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
@@ -15,8 +16,6 @@ namespace CompatibilityCalculatorLogic
         public ICommand userStatCommand;
         public ICommand resultsCommand;
         public ICommand removePotentialCommand;
-
-
 
 
         private readonly IDataStorage dataStorage;
@@ -48,7 +47,6 @@ namespace CompatibilityCalculatorLogic
             {
 
             }
-
 
             var temp = potentialRepo.GetUserStats();
 
@@ -381,6 +379,7 @@ namespace CompatibilityCalculatorLogic
             {
                 //Potential test = new Potential();
 
+
                 potentialRepo.AddPotential(new Potential(
                     firstNameFunction,
                     lastNameFunction,
@@ -403,6 +402,7 @@ namespace CompatibilityCalculatorLogic
         public ICommand UserStatCommand => userStatCommand ?? (userStatCommand = new SimpleCommand(
             () =>
             {
+                Debug.WriteLine("This code segment was executed222");
 
                 potentialRepo.ChangeUserStats(new UserProfileStats(
                     userFirstNameFunction,
