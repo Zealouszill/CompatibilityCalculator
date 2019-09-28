@@ -9,4 +9,10 @@
     <PackageReference Include="Xamarin.Forms" Version="4.2.0.815419" />
     <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CompatibilityCalculatorDatabase\CompatibilityCalculatorDatabase.csproj" />
+    <ProjectReference Include="..\..\CompatibilityCalculatorLogic\CompatibilityCalculatorLogic.csproj" />
+    <ProjectReference Include="..\..\CompatibilityCalculatorTypes\CompatibilityCalculatorTypes.csproj" />
+  </ItemGroup>
 </Project>

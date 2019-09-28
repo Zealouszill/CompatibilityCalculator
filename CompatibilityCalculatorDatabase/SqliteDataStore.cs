@@ -1,5 +1,5 @@
-﻿using CompatibilityCalculator;
-using CompatibilityCalculatorTypes;
+﻿using CompatibilityCalculatorTypes;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 

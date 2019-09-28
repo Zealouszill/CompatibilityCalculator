@@ -1,5 +1,4 @@
-﻿using CompatibilityCalculator;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace CompatibilityCalculatorTypes

@@ -1,5 +1,9 @@
 
 
+using CompatibilityCalculatorDatabase;
+using CompatibilityCalculatorLogic;
+using CompatibilityCalculatorTypes;
+
 namespace CompatibilityCalculatorXamarin
 {
     public class ViewModelLocator
