@@ -2,7 +2,7 @@
 
 namespace CompatibilityCalculatorTypes
 {
-    public class IDataStorage
+    public interface IDataStorage
     {
         void AddPotential(Potential p);
         void AddUserStats(UserProfileStats u);
