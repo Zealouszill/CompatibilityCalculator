@@ -1,6 +1,6 @@
 ﻿
 
-namespace CompatibilityCalculator
+namespace CompatibilityCalculatorTypes
 {
     public class Potential
     {
