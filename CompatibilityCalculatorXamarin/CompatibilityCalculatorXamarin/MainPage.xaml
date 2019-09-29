@@ -7,7 +7,6 @@
              x:Class="CompatibilityCalculatorXamarin.MainPage"
              
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
-             xmlns:sharedvm="clr-namespace:CompatibilityCalculatorLogic;assembly=CompatibilityCalculatorLogic"
              xmlns:local="clr-namespace:CompatibilityCalculatorXamarin">
 
     
@@ -17,7 +16,106 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+        </Grid.RowDefinitions>
+
+        <StackLayout Grid.Column="0" BackgroundColor="DarkGray">
+            <Label 
+                Text="Compatibility Calculator!" 
+                Margin="0,40,0,0"
+                FontSize="Large" 
+                HorizontalTextAlignment="Center" 
+                VerticalTextAlignment="Center"></Label>
+            <Button x:Name="AddRemoveBtn" Margin="10,40,10,0" Text="Add or Remove User" Clicked="DisplayAddRemoveSL"></Button>
+            <Button x:Name="TestCompBtn" Margin="10,20,10,0" Text="Test Compatibility" Clicked="DisplayTestCompSL"></Button>
+        </StackLayout>
+
+        <Grid x:Name="AddRemoveSL" Grid.Column="1" Grid.ColumnSpan="2" IsVisible="True">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <StackLayout Grid.Column="0">
+                <Label Margin="0,75,0,0"
+                    Text="New User" 
+                    FontSize="Medium"
+                    HorizontalTextAlignment="Center"></Label>
+                <Label Margin="10,20,0,0" Text="First Name"></Label>
+                <Editor Margin="20,0,20,0" Text="First Name"></Editor>
+                <Label Margin="10,20,0,0" Text="Last Name"></Label>
+                <Editor Margin="20,0,20,0" Text="Last Name"></Editor>
+
+                <BoxView WidthRequest="1" HeightRequest="1" Color="Black" Margin="10,10,10,0"></BoxView>
+
+                <Grid Margin="20,20,20,0">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!--
+                    userFirstNameFunction,
+                    userLastNameFunction,
+                    userAgeFunction,
+                    userEnjoysSportsRatingFunction,
+                    userFrugalityRatingFunction,
+                    userPhysicallyActiveRatingFunction,
+                    userDesireForKidsRatingFunction,
+                    userSenseOfHumorRatingFunction,
+                    userDrivenRatingFunction,
+                    userAdditionalDetailsFunction));
+                    -->
+
+                    <StackLayout Grid.Column="0">
+                        <Label Margin="10,20,0,0" Text="Age?"></Label>
+                        <Label Margin="10,20,0,0" Text="Enjoy's Sports?"></Label>
+                        <Label Margin="10,20,0,0" Text="Frugality?"></Label>
+                        <Label Margin="10,20,0,0" Text="Physically Active?"></Label>
+                        <Label Margin="10,20,0,0" Text="Desire For Kids?"></Label>
+                        <Label Margin="10,20,0,0" Text="Sense of Humor?"></Label>
+                        <Label Margin="10,20,0,0" Text="Driven?"></Label>
+                    </StackLayout>
+
+                    <StackLayout Grid.Column="1">
+                        <Editor Margin="10,8,0,0" Text="Age"></Editor>
+                        <Editor Margin="10,8,0,0" Text="Enjoy's Sports"></Editor>
+                        <Editor Margin="10,8,0,0" Text="Frugality"></Editor>
+                        <Editor Margin="10,8,0,0" Text="Physically Active"></Editor>
+                        <Editor Margin="10,8,0,0" Text="Desire For Kids"></Editor>
+                        <Editor Margin="10,8,0,0" Text="Sense of Humor"></Editor>
+                        <Editor Margin="10,8,0,0" Text="Driven"></Editor>
+                    </StackLayout>
+
+                    <Button Text="Add Potential" Command="{Binding AddPotentialCommand}"/>
+
+
+
+                </Grid>
+                
+            </StackLayout>
+
+            <StackLayout Grid.Column="1">
+
+            </StackLayout>
+
+        </Grid>
+
+        <StackLayout x:Name="TestCompSL" Grid.Column="1" Grid.ColumnSpan="2" IsVisible="False">
+            
+        </StackLayout>
+        
+    </Grid>
     
     
     <!--

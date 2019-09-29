@@ -379,7 +379,6 @@ namespace CompatibilityCalculatorLogic
             {
                 //Potential test = new Potential();
 
-
                 potentialRepo.AddPotential(new Potential(
                     firstNameFunction,
                     lastNameFunction,
@@ -419,7 +418,7 @@ namespace CompatibilityCalculatorLogic
             }));
 
         //potentialRepo.AddUserProfile(new UserProfileStats(
-        //    userFirstNameFunction,
+        //userFirstNameFunction,
         //    userLastNameFunction,
         //    userAgeFunction,
         //    userEnjoysSportsRatingFunction,

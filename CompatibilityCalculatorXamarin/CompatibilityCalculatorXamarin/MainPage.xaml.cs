@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace CompatibilityCalculatorXamarin
@@ -16,6 +12,17 @@ namespace CompatibilityCalculatorXamarin
         public MainPage()
         {
             InitializeComponent();
+        }
+
+        void DisplayAddRemoveSL(object sender, EventArgs args)
+        {
+            TestCompSL.IsVisible = false;
+            AddRemoveSL.IsVisible = true;
+        }
+        void DisplayTestCompSL(object sender, EventArgs args)
+        {
+            AddRemoveSL.IsVisible = false;
+            TestCompSL.IsVisible = true;
         }
     }
 }
