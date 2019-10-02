@@ -16,13 +16,13 @@ namespace CompatibilityCalculatorXamarin
 
         void DisplayAddRemoveSL(object sender, EventArgs args)
         {
-            TestCompSL.IsVisible = false;
-            AddRemoveSL.IsVisible = true;
+            TestCompGrid.IsVisible = false;
+            AddRemoveGrid.IsVisible = true;
         }
         void DisplayTestCompSL(object sender, EventArgs args)
         {
-            AddRemoveSL.IsVisible = false;
-            TestCompSL.IsVisible = true;
+            TestCompGrid.IsVisible = false;
+            AddRemoveGrid.IsVisible = true;
         }
     }
 }

@@ -48,7 +48,8 @@
                 BackgroundColor="LightBlue"></Button>
         </StackLayout>
 
-        <Grid x:Name="AddRemoveSL" Grid.Column="1" Grid.ColumnSpan="2" IsVisible="True">
+        <!-- Code used to create "Add new user" and the "Remove User" interfaces. -->
+        <Grid x:Name="AddRemoveGrid" Grid.Column="1" Grid.ColumnSpan="2" IsVisible="True">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -58,7 +59,7 @@
             <!-- This is the new user column -->
             <StackLayout Grid.Column="0">
                 <Label Margin="0,75,0,0"
-                    Text="Create New User" 
+                    Text="Add New User" 
                     FontSize="Medium"
                     HorizontalTextAlignment="Center"></Label>
                 <Label Margin="10,20,0,0" Text="First Name"></Label>
@@ -93,7 +94,7 @@
                     </StackLayout>
 
                     <StackLayout Grid.Column="1">
-                        <Editor Margin="10,8,0,0" Text="{Binding userAgeFunction}"></Editor>
+                        <Editor Margin="10,8,0,0" Text="{Binding ageFunction}"></Editor>
                         <Editor Margin="10,8,0,0" Text="{Binding enjoysSportsRatingFunction}"></Editor>
                         <Editor Margin="10,8,0,0" Text="{Binding frugalityRatingFunction}"></Editor>
                         <Editor Margin="10,8,0,0" Text="{Binding physicallyActiveRatingFunction}"></Editor>
@@ -161,10 +162,115 @@
 
         </Grid>
 
-        <StackLayout x:Name="TestCompSL" Grid.Column="1" Grid.ColumnSpan="2" IsVisible="False">
-            
-        </StackLayout>
-        
+        <Grid x:Name="TestCompGrid" Grid.Column="1" Grid.ColumnSpan="2" IsVisible="False">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <!-- This is the new user column -->
+            <StackLayout Grid.Column="0">
+                <Label Margin="0,75,0,0"
+                    Text="Your Stats" 
+                    FontSize="Medium"
+                    HorizontalTextAlignment="Center"></Label>
+
+                <BoxView WidthRequest="1" HeightRequest="1" Color="Black" Margin="10,10,10,0"></BoxView>
+
+                <Grid Margin="20,20,20,0">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout Grid.Column="0">
+                        <Label Margin="10,20,0,0" Text="Age?"></Label>
+                        <Label Margin="10,20,0,0" Text="Enjoy's Sports?"></Label>
+                        <Label Margin="10,20,0,0" Text="Frugality?"></Label>
+                        <Label Margin="10,20,0,0" Text="Physically Active?"></Label>
+                        <Label Margin="10,20,0,0" Text="Desire For Kids?"></Label>
+                        <Label Margin="10,20,0,0" Text="Sense of Humor?"></Label>
+                        <Label Margin="10,20,0,0" Text="Driven?"></Label>
+
+                        <Button 
+                            Text="Calculate Compatibility" 
+                            Grid.ColumnSpan="1" 
+                            Margin="0,30,0,0" 
+                            Command="{Binding userStatCommand}"
+                            BackgroundColor="LightBlue"/>
+                    </StackLayout>
+
+                    <StackLayout Grid.Column="1">
+                        <Editor Margin="10,8,0,0" Text="{Binding userAgeFunction}"></Editor>
+                        <Editor Margin="10,8,0,0" Text="{Binding userEnjoysSportsRatingFunction}"></Editor>
+                        <Editor Margin="10,8,0,0" Text="{Binding userFrugalityRatingFunction}"></Editor>
+                        <Editor Margin="10,8,0,0" Text="{Binding userPhysicallyActiveRatingFunction}"></Editor>
+                        <Editor Margin="10,8,0,0" Text="{Binding userDesireForKidsRatingFunction}"></Editor>
+                        <Editor Margin="10,8,0,0" Text="{Binding userSenseOfHumorRatingFunction}"></Editor>
+                        <Editor Margin="10,8,0,0" Text="{Binding userDrivenRatingFunction}"></Editor>
+                    </StackLayout>
+
+
+
+
+                </Grid>
+
+            </StackLayout>
+
+
+            <!-- This is the remove user column -->
+            <StackLayout Grid.Column="1">
+
+                <Label Margin="0,75,0,0"
+                    Text="Remove User" 
+                    FontSize="Medium"
+                    HorizontalTextAlignment="Center"></Label>
+
+                <StackLayout HeightRequest="200" Margin="10,20,10,0">
+                    <ListView WidthRequest="200" 
+                              BackgroundColor="LightGray" 
+                              ItemsSource="{Binding ListOfAllPotentials}" 
+                              SelectedItem="{Binding selectedItemFunction, Mode=TwoWay}">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <ViewCell.View>
+                                        <StackLayout Orientation="Horizontal" Margin="5,3,5,3">
+                                            <Label Text="{Binding FirstName}"/>
+                                            <Label Text="{Binding LastName}"/>
+                                        </StackLayout>
+                                    </ViewCell.View>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+
+                <Grid Margin="20,20,20,0">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout Grid.Column="0">
+                        <Button 
+                            Text="Remove Potential" 
+                            Margin="0,30,0,0" 
+                            Command="{Binding RemovePotentialCommand}"
+                            BackgroundColor="LightBlue"/>
+                    </StackLayout>
+
+                </Grid>
+
+
+            </StackLayout>
+        </Grid>
+
+
     </Grid>
     
     

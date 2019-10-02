@@ -144,17 +144,19 @@ namespace CompatibilityCalculatorLogic
             () =>
             {
 
-                potentialRepo.ChangeUserStats(new UserProfileStats(
-                    userFirstNameFunction,
-                    userLastNameFunction,
-                    userAgeFunction,
-                    userEnjoysSportsRatingFunction,
-                    userFrugalityRatingFunction,
-                    userPhysicallyActiveRatingFunction,
-                    userDesireForKidsRatingFunction,
-                    userSenseOfHumorRatingFunction,
-                    userDrivenRatingFunction
-                    ));
+                compatibilityPercentageFunction =  calculateCompatibilityPercentage();
+
+                //potentialRepo.ChangeUserStats(new UserProfileStats(
+                //    userFirstNameFunction,
+                //    userLastNameFunction,
+                //    userAgeFunction,
+                //    userEnjoysSportsRatingFunction,
+                //    userFrugalityRatingFunction,
+                //    userPhysicallyActiveRatingFunction,
+                //    userDesireForKidsRatingFunction,
+                //    userSenseOfHumorRatingFunction,
+                //    userDrivenRatingFunction
+                //    ));
 
             }));
 
@@ -188,29 +190,29 @@ namespace CompatibilityCalculatorLogic
 
 
 
-        public ICommand GetDBResults => resultsCommand ?? (resultsCommand = new SimpleCommand(
-            () =>
-            {
-                Potential tempPotential = potentialRepo.GetASpecificId(IdSelection);
+        //public ICommand GetDBResults => resultsCommand ?? (resultsCommand = new SimpleCommand(
+        //    () =>
+        //    {
+        //        Potential tempPotential = potentialRepo.GetASpecificId(IdSelection);
 
-                firstNameResultsFunction = tempPotential.FirstName;
-                lastNameResultsFunction = tempPotential.LastName;
-                ageResultsFunction = tempPotential.Age;
-                enjoysSportsRatingResultsFunction = tempPotential.EnjoysSportsRating;
-                frugalityResultsFunction = tempPotential.EnjoysSportsRating;
-                desireForKidsRatingResultsFunction = tempPotential.DesireForKidsRating;
-                senseOfHumorRatingResultsFunction = tempPotential.SenseOfHumorRating;
-                drivenRatingResultsFunction = tempPotential.DrivenRating;
+        //        firstNameResultsFunction = tempPotential.FirstName;
+        //        lastNameResultsFunction = tempPotential.LastName;
+        //        ageResultsFunction = tempPotential.Age;
+        //        enjoysSportsRatingResultsFunction = tempPotential.EnjoysSportsRating;
+        //        frugalityResultsFunction = tempPotential.EnjoysSportsRating;
+        //        desireForKidsRatingResultsFunction = tempPotential.DesireForKidsRating;
+        //        senseOfHumorRatingResultsFunction = tempPotential.SenseOfHumorRating;
+        //        drivenRatingResultsFunction = tempPotential.DrivenRating;
 
 
-                //firstNameResultsFunction = potentialRepo.GetASpecificId(IdSelection).FirstName;
+        //        //firstNameResultsFunction = potentialRepo.GetASpecificId(IdSelection).FirstName;
 
-                //FirstName = firstName;
-                //LastName = lastName;
-                //Age = age;
-                //PersonalityRating = personalityRating;
-                //EnjoysSports = enjoysSports;
-            }));
+        //        //FirstName = firstName;
+        //        //LastName = lastName;
+        //        //Age = age;
+        //        //PersonalityRating = personalityRating;
+        //        //EnjoysSports = enjoysSports;
+        //    }));
 
 
 
@@ -254,7 +256,7 @@ namespace CompatibilityCalculatorLogic
             set { SetField(ref CompatibilityPercentage, value); }
         }
 
-        /* Display Database Input Values Code block: */
+        /* Display Database Input Values Code block for potential girlfriend: */
 
         private string PotentialFirstName;
         public string firstNameFunction
