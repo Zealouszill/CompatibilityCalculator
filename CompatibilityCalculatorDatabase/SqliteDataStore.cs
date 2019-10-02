@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace CompatibilityCalculatorDatabase
 {
@@ -22,7 +23,7 @@ namespace CompatibilityCalculatorDatabase
 
         public void AddPotential(Potential p)
         {
-            Console.WriteLine(p.FirstName);
+            Debug.WriteLine("This person was added: " + p.FirstName);
             context.Potentials.Add(p);
             context.SaveChanges();
         }
@@ -53,13 +54,13 @@ namespace CompatibilityCalculatorDatabase
             catch (NullReferenceException)
             {
                 tempUserDatabaseStats = new UserProfileStats(
-                "N/A", "N/A", 0, 0, 0, 0, 0, 0, 0, "N/A");
+                "N/A", "N/A", 0, 0, 0, 0, 0, 0, 0);
             }
 
             if (tempUserDatabaseStats == null)
             {
                 tempUserDatabaseStats = new UserProfileStats(
-                "N/A", "N/A", 0, 0, 0, 0, 0, 0, 0, "N/A");
+                "N/A", "N/A", 0, 0, 0, 0, 0, 0, 0);
             }
 
             return tempUserDatabaseStats;
@@ -79,19 +80,10 @@ namespace CompatibilityCalculatorDatabase
             context.SaveChanges();
         }
 
-        public string RemovePotentialById(int id)
+        public void RemovePotentialById(int id)
         {
-            try
-            {
-                context.Potentials.Remove(context.Potentials.Find((long)id));
-            }
-            catch
-            {
-                return "Was unable to remove potential";
-            }
-
+            context.Potentials.Remove(context.Potentials.Find(id));
             context.SaveChanges();
-            return "Potential Removed";
         }
 
         public void ChangeUserStatsValues(UserProfileStats u)
@@ -105,7 +97,6 @@ namespace CompatibilityCalculatorDatabase
             context.UserStats.Find((long)1).DesireForKidsRating = u.DesireForKidsRating;
             context.UserStats.Find((long)1).SenseOfHumorRating = u.SenseOfHumorRating;
             context.UserStats.Find((long)1).DrivenRating = u.DrivenRating;
-            context.UserStats.Find((long)1).AdditionalDetails = u.AdditionalDetails;
         }
 
     }

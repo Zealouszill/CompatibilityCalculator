@@ -10,7 +10,7 @@ namespace CompatibilityCalculatorTypes
         }
 
         public Potential(string firstName, string lastName, int age, int enjoysSportsRating, int frugalityRating,
-            int physicallyActiveRating, int desireForKidsRating, int senseOfHumorRating, int drivenRating, string additionalDetails)
+            int physicallyActiveRating, int desireForKidsRating, int senseOfHumorRating, int drivenRating)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -21,11 +21,10 @@ namespace CompatibilityCalculatorTypes
             DesireForKidsRating = desireForKidsRating;
             SenseOfHumorRating = senseOfHumorRating;
             DrivenRating = drivenRating;
-            AdditionalDetails = additionalDetails;
 
         }
 
-        public long Id { get; set; }
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Age { get; set; }
@@ -35,7 +34,5 @@ namespace CompatibilityCalculatorTypes
         public int DesireForKidsRating { get; set; }
         public int SenseOfHumorRating { get; set; }
         public int DrivenRating { get; set; }
-        public string AdditionalDetails { get; set; }
-
     }
 }

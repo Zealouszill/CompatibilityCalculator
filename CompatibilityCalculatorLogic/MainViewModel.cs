@@ -22,18 +22,13 @@ namespace CompatibilityCalculatorLogic
 
         public MainViewModel()
         {
-            Console.WriteLine("This code executed");
             TestString = "This word";
 
             ListOfAllPotentials = new ObservableCollection<Potential>(dataStorage.GetAllPotentials());
-
-
-
         }
 
         public MainViewModel(PotentialRepository potentialRepo)
         {
-            Console.WriteLine("This code executed2");
 
             this.potentialRepo = potentialRepo;
 
@@ -59,7 +54,7 @@ namespace CompatibilityCalculatorLogic
             userDesireForKidsRatingFunction = temp.DesireForKidsRating;
             userSenseOfHumorRatingFunction = temp.SenseOfHumorRating;
             userDrivenRatingFunction = temp.DrivenRating;
-            userAdditionalDetailsFunction = temp.AdditionalDetails;
+
         }
 
 
@@ -93,12 +88,164 @@ namespace CompatibilityCalculatorLogic
             set { SetField(ref ReferencedPotential, value); }
         }
 
-        //    EnjoysSportsRating = enjoysSportsRating;
-        //    FrugalityRating = frugalityRating;
-        //    PhysicallyActiveRating = physicallyActiveRating;
-        //    DesireForKidsRating = desireForKidsRating;
-        //    SenseOfHumorRating = senseOfHumorRating;
-        //    DrivenRating = drivenRating;
+        public double calculateCompatibilityPercentage()
+        {
+            double difference = (Math.Abs(ReferencedPotential.EnjoysSportsRating - userEnjoysSportsRatingFunction) +
+                Math.Abs(ReferencedPotential.FrugalityRating - userFrugalityRatingFunction) +
+                Math.Abs(ReferencedPotential.PhysicallyActiveRating - userPhysicallyActiveRatingFunction) +
+                Math.Abs(ReferencedPotential.DesireForKidsRating - userDesireForKidsRatingFunction) +
+                Math.Abs(ReferencedPotential.SenseOfHumorRating - userSenseOfHumorRatingFunction) +
+                Math.Abs(ReferencedPotential.DrivenRating - UserDrivenRating));
+
+            double percentage = Math.Abs(Math.Round((difference / 54) * 100, 2) - 100);
+
+            return percentage;
+        }
+
+        public ICommand AddPotentialCommand => addPotentialCommand ?? (addPotentialCommand = new SimpleCommand(
+            () =>
+            {
+                return true;
+            },
+            () =>
+            {
+                //Potential test = new Potential();
+
+                Potential tempPot = new Potential(
+                    firstNameFunction,
+                    lastNameFunction,
+                    ageFunction,
+                    enjoysSportsRatingFunction,
+                    frugalityRatingFunction,
+                    physicallyActiveRatingFunction,
+                    desireForKidsRatingFunction,
+                    senseOfHumorRatingFunction,
+                    drivenRatingFunction
+                    );
+
+                potentialRepo.AddPotential(tempPot);
+                ListOfAllPotentials.Add(tempPot);
+
+                //Potentials.Clear();
+                //foreach (var c in potentialRepo.GetAllPotentials())
+                //    Potentials.Add(c);
+                firstNameFunction = null;
+                lastNameFunction = null;
+                ageFunction = 0;
+                enjoysSportsRatingFunction = 0;
+                frugalityRatingFunction = 0;
+                physicallyActiveRatingFunction = 0;
+                desireForKidsRatingFunction = 0;
+                senseOfHumorRatingFunction = 0;
+                drivenRatingFunction = 0;
+            }));
+
+        public ICommand UserStatCommand => userStatCommand ?? (userStatCommand = new SimpleCommand(
+            () =>
+            {
+
+                potentialRepo.ChangeUserStats(new UserProfileStats(
+                    userFirstNameFunction,
+                    userLastNameFunction,
+                    userAgeFunction,
+                    userEnjoysSportsRatingFunction,
+                    userFrugalityRatingFunction,
+                    userPhysicallyActiveRatingFunction,
+                    userDesireForKidsRatingFunction,
+                    userSenseOfHumorRatingFunction,
+                    userDrivenRatingFunction
+                    ));
+
+            }));
+
+        //potentialRepo.AddUserProfile(new UserProfileStats(
+        //userFirstNameFunction,
+        //    userLastNameFunction,
+        //    userAgeFunction,
+        //    userEnjoysSportsRatingFunction,
+        //    userFrugalityRatingFunction,
+        //    userPhysicallyActiveRatingFunction,
+        //    userDesireForKidsRatingFunction,
+        //    userSenseOfHumorRatingFunction,
+        //    userDrivenRatingFunction));
+
+        //Potentials.Clear();
+        //foreach (var c in potentialRepo.GetAllPotentials())
+        //    Potentials.Add(c);
+        //FirstName = null;
+
+        /*  
+            FirstName = firstName;
+            LastName = lastName;
+            Age = age;
+            EnjoysSportsRating = enjoysSportsRating;
+            FrugalityRating = frugalityRating;
+            PhysicallyActiveRating = physicallyActiveRating;
+            DesireForKidsRating = desireForKidsRating;
+            SenseOfHumorRating = senseOfHumorRating;
+            DrivenRating = drivenRating;
+         */
+
+
+
+        public ICommand GetDBResults => resultsCommand ?? (resultsCommand = new SimpleCommand(
+            () =>
+            {
+                Potential tempPotential = potentialRepo.GetASpecificId(IdSelection);
+
+                firstNameResultsFunction = tempPotential.FirstName;
+                lastNameResultsFunction = tempPotential.LastName;
+                ageResultsFunction = tempPotential.Age;
+                enjoysSportsRatingResultsFunction = tempPotential.EnjoysSportsRating;
+                frugalityResultsFunction = tempPotential.EnjoysSportsRating;
+                desireForKidsRatingResultsFunction = tempPotential.DesireForKidsRating;
+                senseOfHumorRatingResultsFunction = tempPotential.SenseOfHumorRating;
+                drivenRatingResultsFunction = tempPotential.DrivenRating;
+
+
+                //firstNameResultsFunction = potentialRepo.GetASpecificId(IdSelection).FirstName;
+
+                //FirstName = firstName;
+                //LastName = lastName;
+                //Age = age;
+                //PersonalityRating = personalityRating;
+                //EnjoysSports = enjoysSports;
+            }));
+
+
+
+        public ICommand RemovePotentialCommand => removePotentialCommand ?? (removePotentialCommand = new SimpleCommand(
+            () =>
+            {
+                try
+                {
+                    potentialRepo.RemovePotentialById(selectedItemFunction.Id);
+                    ListOfAllPotentials.Remove(selectedItemFunction);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine("We were unable to delete item from database.");
+                    Debug.WriteLine(e);
+                }
+            }));
+
+
+
+        //public ICommand AddPotentialCommand => addPotentialCommand ?? (addPotentialCommand = new SimpleCommand(() => ChildControlViewModel = new AddCardViewModel(cardRepo)));
+        //public ICommand AddPotentialCommand => addPotentialCommand ?? (addPotentialCommand = new SimpleCommand(() => ChildControlViewModel = new AddPotentialViewModel(potentialRepo)));
+
+        //public object ChildControlViewModel { get; set; }
+
+        public ObservableCollection<Potential> ListOfAllPotentials { get; private set; }
+
+        /* Compatibility Percentage */
+
+        private Potential SelectedItem;
+        public Potential selectedItemFunction
+        {
+            get { return SelectedItem; }
+            set { SetField(ref SelectedItem, value); }
+        }
 
         private double CompatibilityPercentage;
         public double compatibilityPercentageFunction
@@ -170,13 +317,6 @@ namespace CompatibilityCalculatorLogic
         {
             get { return PotentialDrivenRating; }
             set { SetField(ref PotentialDrivenRating, value); }
-        }
-
-        private string PotentialAdditionalDetails;
-        public string additionalDetailsFunction
-        {
-            get { return PotentialAdditionalDetails; }
-            set { SetField(ref PotentialAdditionalDetails, value); }
         }
 
         /* End Display Database Values Code Block 
@@ -262,13 +402,6 @@ namespace CompatibilityCalculatorLogic
             set { SetField(ref DrivenRatingResults, value); }
         }
 
-        private string AdditionalDetailsResults;
-        public string additionalDetailsResultsFunction
-        {
-            get { return AdditionalDetailsResults; }
-            set { SetField(ref AdditionalDetailsResults, value); }
-        }
-
         /* End  Show results Code block
          * Start of Compatability input code for user: */
 
@@ -335,13 +468,6 @@ namespace CompatibilityCalculatorLogic
             set { SetField(ref UserDrivenRating, value); }
         }
 
-        private string UserAdditionalDetails;
-        public string userAdditionalDetailsFunction
-        {
-            get { return UserAdditionalDetails; }
-            set { SetField(ref UserAdditionalDetails, value); }
-        }
-
         /*  
          *  Id = id;
             FirstName = firstName;
@@ -353,140 +479,7 @@ namespace CompatibilityCalculatorLogic
             DesireForKidsRating = desireForKidsRating;
             SenseOfHumorRating = senseOfHumorRating;
             DrivenRating = drivenRating;
-            AdditionalDetails = additionalDetails;
          */
-
-        public double calculateCompatibilityPercentage()
-        {
-            double difference = (Math.Abs(ReferencedPotential.EnjoysSportsRating - userEnjoysSportsRatingFunction) +
-                Math.Abs(ReferencedPotential.FrugalityRating - userFrugalityRatingFunction) +
-                Math.Abs(ReferencedPotential.PhysicallyActiveRating - userPhysicallyActiveRatingFunction) +
-                Math.Abs(ReferencedPotential.DesireForKidsRating - userDesireForKidsRatingFunction) +
-                Math.Abs(ReferencedPotential.SenseOfHumorRating - userSenseOfHumorRatingFunction) +
-                Math.Abs(ReferencedPotential.DrivenRating - UserDrivenRating));
-
-            double percentage = Math.Abs(Math.Round((difference / 54) * 100, 2) - 100);
-
-            return percentage;
-        }
-
-        public ICommand AddPotentialCommand => addPotentialCommand ?? (addPotentialCommand = new SimpleCommand(
-            () =>
-            {
-                return true;
-            },
-            () =>
-            {
-                //Potential test = new Potential();
-
-                potentialRepo.AddPotential(new Potential(
-                    firstNameFunction,
-                    lastNameFunction,
-                    ageFunction,
-                    enjoysSportsRatingFunction,
-                    frugalityRatingFunction,
-                    physicallyActiveRatingFunction,
-                    desireForKidsRatingFunction,
-                    senseOfHumorRatingFunction,
-                    drivenRatingFunction,
-                    additionalDetailsFunction));
-
-
-                //Potentials.Clear();
-                //foreach (var c in potentialRepo.GetAllPotentials())
-                //    Potentials.Add(c);
-                //FirstName = null;
-            }));
-
-        public ICommand UserStatCommand => userStatCommand ?? (userStatCommand = new SimpleCommand(
-            () =>
-            {
-                Debug.WriteLine("This code segment was executed222");
-
-                potentialRepo.ChangeUserStats(new UserProfileStats(
-                    userFirstNameFunction,
-                    userLastNameFunction,
-                    userAgeFunction,
-                    userEnjoysSportsRatingFunction,
-                    userFrugalityRatingFunction,
-                    userPhysicallyActiveRatingFunction,
-                    userDesireForKidsRatingFunction,
-                    userSenseOfHumorRatingFunction,
-                    userDrivenRatingFunction,
-                    userAdditionalDetailsFunction));
-
-            }));
-
-        //potentialRepo.AddUserProfile(new UserProfileStats(
-        //userFirstNameFunction,
-        //    userLastNameFunction,
-        //    userAgeFunction,
-        //    userEnjoysSportsRatingFunction,
-        //    userFrugalityRatingFunction,
-        //    userPhysicallyActiveRatingFunction,
-        //    userDesireForKidsRatingFunction,
-        //    userSenseOfHumorRatingFunction,
-        //    userDrivenRatingFunction,
-        //    userAdditionalDetailsFunction));
-
-        //Potentials.Clear();
-        //foreach (var c in potentialRepo.GetAllPotentials())
-        //    Potentials.Add(c);
-        //FirstName = null;
-
-        /*  
-            FirstName = firstName;
-            LastName = lastName;
-            Age = age;
-            EnjoysSportsRating = enjoysSportsRating;
-            FrugalityRating = frugalityRating;
-            PhysicallyActiveRating = physicallyActiveRating;
-            DesireForKidsRating = desireForKidsRating;
-            SenseOfHumorRating = senseOfHumorRating;
-            DrivenRating = drivenRating;
-            AdditionalDetails = additionalDetails;
-         */
-
-        public ICommand GetDBResults => resultsCommand ?? (resultsCommand = new SimpleCommand(
-            () =>
-            {
-                Potential tempPotential = potentialRepo.GetASpecificId(IdSelection);
-
-                firstNameResultsFunction = tempPotential.FirstName;
-                lastNameResultsFunction = tempPotential.LastName;
-                ageResultsFunction = tempPotential.Age;
-                enjoysSportsRatingResultsFunction = tempPotential.EnjoysSportsRating;
-                frugalityResultsFunction = tempPotential.EnjoysSportsRating;
-                desireForKidsRatingResultsFunction = tempPotential.DesireForKidsRating;
-                senseOfHumorRatingResultsFunction = tempPotential.SenseOfHumorRating;
-                drivenRatingResultsFunction = tempPotential.DrivenRating;
-                additionalDetailsResultsFunction = tempPotential.AdditionalDetails;
-
-
-                //firstNameResultsFunction = potentialRepo.GetASpecificId(IdSelection).FirstName;
-
-                //FirstName = firstName;
-                //LastName = lastName;
-                //AdditionalDetails = additionalDetails;
-                //Age = age;
-                //PersonalityRating = personalityRating;
-                //EnjoysSports = enjoysSports;
-            }));
-
-        public ICommand RemovePotentialCommand => removePotentialCommand ?? (removePotentialCommand = new SimpleCommand(
-            () =>
-            {
-                var removalResult = potentialRepo.RemovePotentialById(RemovePotentialID);
-                Console.WriteLine("The removal Result is: " + removalResult);
-            }));
-
-        //public ICommand AddPotentialCommand => addPotentialCommand ?? (addPotentialCommand = new SimpleCommand(() => ChildControlViewModel = new AddCardViewModel(cardRepo)));
-        //public ICommand AddPotentialCommand => addPotentialCommand ?? (addPotentialCommand = new SimpleCommand(() => ChildControlViewModel = new AddPotentialViewModel(potentialRepo)));
-
-        //public object ChildControlViewModel { get; set; }
-
-        public ObservableCollection<Potential> ListOfAllPotentials { get; private set; }
-
 
         #region INotifyPropertyChanged Implementation
         public event PropertyChangedEventHandler PropertyChanged;

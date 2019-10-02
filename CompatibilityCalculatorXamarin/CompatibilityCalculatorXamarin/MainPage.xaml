@@ -27,15 +27,25 @@
         <Grid.RowDefinitions>
         </Grid.RowDefinitions>
 
-        <StackLayout Grid.Column="0" BackgroundColor="DarkGray">
+        <StackLayout Grid.Column="0" BackgroundColor="LightGray">
             <Label 
                 Text="Compatibility Calculator!" 
                 Margin="0,40,0,0"
                 FontSize="Large" 
                 HorizontalTextAlignment="Center" 
                 VerticalTextAlignment="Center"></Label>
-            <Button x:Name="AddRemoveBtn" Margin="10,40,10,0" Text="Add or Remove User" Clicked="DisplayAddRemoveSL"></Button>
-            <Button x:Name="TestCompBtn" Margin="10,20,10,0" Text="Test Compatibility" Clicked="DisplayTestCompSL"></Button>
+            <Button 
+                x:Name="AddRemoveBtn" 
+                Margin="10,40,10,0" 
+                Text="Add or Remove User" 
+                Clicked="DisplayAddRemoveSL"
+                BackgroundColor="LightBlue"></Button>
+            <Button 
+                x:Name="TestCompBtn" 
+                Margin="10,20,10,0" 
+                Text="Test Compatibility" 
+                Clicked="DisplayTestCompSL"
+                BackgroundColor="LightBlue"></Button>
         </StackLayout>
 
         <Grid x:Name="AddRemoveSL" Grid.Column="1" Grid.ColumnSpan="2" IsVisible="True">
@@ -45,15 +55,16 @@
                 <ColumnDefinition Width="1*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
+            <!-- This is the new user column -->
             <StackLayout Grid.Column="0">
                 <Label Margin="0,75,0,0"
-                    Text="New User" 
+                    Text="Create New User" 
                     FontSize="Medium"
                     HorizontalTextAlignment="Center"></Label>
                 <Label Margin="10,20,0,0" Text="First Name"></Label>
-                <Editor Margin="20,0,20,0" Text="First Name"></Editor>
+                <Editor Margin="20,0,20,0" Text="{Binding firstNameFunction}"></Editor>
                 <Label Margin="10,20,0,0" Text="Last Name"></Label>
-                <Editor Margin="20,0,20,0" Text="Last Name"></Editor>
+                <Editor Margin="20,0,20,0" Text="{Binding lastNameFunction}"></Editor>
 
                 <BoxView WidthRequest="1" HeightRequest="1" Color="Black" Margin="10,10,10,0"></BoxView>
 
@@ -64,19 +75,6 @@
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     
-                    <!--
-                    userFirstNameFunction,
-                    userLastNameFunction,
-                    userAgeFunction,
-                    userEnjoysSportsRatingFunction,
-                    userFrugalityRatingFunction,
-                    userPhysicallyActiveRatingFunction,
-                    userDesireForKidsRatingFunction,
-                    userSenseOfHumorRatingFunction,
-                    userDrivenRatingFunction,
-                    userAdditionalDetailsFunction));
-                    -->
-
                     <StackLayout Grid.Column="0">
                         <Label Margin="10,20,0,0" Text="Age?"></Label>
                         <Label Margin="10,20,0,0" Text="Enjoy's Sports?"></Label>
@@ -85,19 +83,25 @@
                         <Label Margin="10,20,0,0" Text="Desire For Kids?"></Label>
                         <Label Margin="10,20,0,0" Text="Sense of Humor?"></Label>
                         <Label Margin="10,20,0,0" Text="Driven?"></Label>
+
+                        <Button 
+                            Text="Add Potential" 
+                            Grid.ColumnSpan="1" 
+                            Margin="0,30,0,0" 
+                            Command="{Binding AddPotentialCommand}"
+                            BackgroundColor="LightBlue"/>
                     </StackLayout>
 
                     <StackLayout Grid.Column="1">
-                        <Editor Margin="10,8,0,0" Text="Age"></Editor>
-                        <Editor Margin="10,8,0,0" Text="Enjoy's Sports"></Editor>
-                        <Editor Margin="10,8,0,0" Text="Frugality"></Editor>
-                        <Editor Margin="10,8,0,0" Text="Physically Active"></Editor>
-                        <Editor Margin="10,8,0,0" Text="Desire For Kids"></Editor>
-                        <Editor Margin="10,8,0,0" Text="Sense of Humor"></Editor>
-                        <Editor Margin="10,8,0,0" Text="Driven"></Editor>
+                        <Editor Margin="10,8,0,0" Text="{Binding userAgeFunction}"></Editor>
+                        <Editor Margin="10,8,0,0" Text="{Binding enjoysSportsRatingFunction}"></Editor>
+                        <Editor Margin="10,8,0,0" Text="{Binding frugalityRatingFunction}"></Editor>
+                        <Editor Margin="10,8,0,0" Text="{Binding physicallyActiveRatingFunction}"></Editor>
+                        <Editor Margin="10,8,0,0" Text="{Binding desireForKidsRatingFunction}"></Editor>
+                        <Editor Margin="10,8,0,0" Text="{Binding senseOfHumorRatingFunction}"></Editor>
+                        <Editor Margin="10,8,0,0" Text="{Binding drivenRatingFunction}"></Editor>
                     </StackLayout>
 
-                    <Button Text="Add Potential" Command="{Binding AddPotentialCommand}"/>
 
 
 
@@ -105,8 +109,54 @@
                 
             </StackLayout>
 
+
+            <!-- This is the remove user column -->
             <StackLayout Grid.Column="1">
 
+                <Label Margin="0,75,0,0"
+                    Text="Remove User" 
+                    FontSize="Medium"
+                    HorizontalTextAlignment="Center"></Label>
+
+                <StackLayout HeightRequest="200" Margin="10,20,10,0">
+                    <ListView WidthRequest="200" 
+                              BackgroundColor="LightGray" 
+                              ItemsSource="{Binding ListOfAllPotentials}" 
+                              SelectedItem="{Binding selectedItemFunction, Mode=TwoWay}">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <ViewCell.View>
+                                        <StackLayout Orientation="Horizontal" Margin="5,3,5,3">
+                                            <Label Text="{Binding FirstName}"/>
+                                            <Label Text="{Binding LastName}"/>
+                                        </StackLayout>
+                                    </ViewCell.View>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+
+                <Grid Margin="20,20,20,0">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout Grid.Column="0">
+                        <Button 
+                            Text="Remove Potential" 
+                            Margin="0,30,0,0" 
+                            Command="{Binding RemovePotentialCommand}"
+                            BackgroundColor="LightBlue"/>
+                    </StackLayout>
+                    
+                </Grid>
+
+                
             </StackLayout>
 
         </Grid>

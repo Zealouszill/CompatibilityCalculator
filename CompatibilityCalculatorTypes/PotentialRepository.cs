@@ -50,9 +50,9 @@ namespace CompatibilityCalculatorTypes
             return dataStore.GetPotentialById(index);
         }
 
-        public string RemovePotentialById(int id)
+        public void RemovePotentialById(int id)
         {
-            return dataStore.RemovePotentialById(id);
+            dataStore.RemovePotentialById(id);
         }
     }
 }

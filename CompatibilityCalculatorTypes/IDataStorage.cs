@@ -10,6 +10,6 @@ namespace CompatibilityCalculatorTypes
         Potential GetPotentialById(int id);
         UserProfileStats GetUserStats();
         void ChangeUserStats(UserProfileStats u);
-        string RemovePotentialById(int id);
+        void  RemovePotentialById(int id);
     }
 }
