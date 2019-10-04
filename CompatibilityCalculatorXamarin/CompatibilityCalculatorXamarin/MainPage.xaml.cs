@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using Xamarin.Forms;
 
 namespace CompatibilityCalculatorXamarin
@@ -21,8 +22,8 @@ namespace CompatibilityCalculatorXamarin
         }
         void DisplayTestCompSL(object sender, EventArgs args)
         {
-            TestCompGrid.IsVisible = false;
-            AddRemoveGrid.IsVisible = true;
+            TestCompGrid.IsVisible = true;
+            AddRemoveGrid.IsVisible = false;
         }
     }
 }

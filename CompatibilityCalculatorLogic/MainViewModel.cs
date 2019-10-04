@@ -13,7 +13,7 @@ namespace CompatibilityCalculatorLogic
     {
 
         public ICommand addPotentialCommand;
-        public ICommand userStatCommand;
+        public ICommand calcCompStats;
         public ICommand resultsCommand;
         public ICommand removePotentialCommand;
 
@@ -69,37 +69,43 @@ namespace CompatibilityCalculatorLogic
             set { SetField(ref TestString, value); }
         }
 
-        private Potential ReferencedPotential;
-        public Potential referencedPotentialFunction
+        //private Potential ReferencedPotential;
+        //public Potential referencedPotentialFunction
+        //{
+        //    get
+        //    {
+        //        try
+        //        {
+        //            compatibilityPercentageFunction = calculateCompatibilityPercentage();
+        //        }
+        //        catch
+        //        {
+
+        //        }
+
+        //        return ReferencedPotential;
+        //    }
+        //    set { SetField(ref ReferencedPotential, value); }
+        //}
+
+        public void calculateCompatibilityPercentage()
         {
-            get
+            try
             {
-                try
-                {
-                    compatibilityPercentageFunction = calculateCompatibilityPercentage();
-                }
-                catch
-                {
+                double difference = (Math.Abs(selectedItemFunction.EnjoysSportsRating - userEnjoysSportsRatingFunction) +
+                Math.Abs(selectedItemFunction.FrugalityRating - userFrugalityRatingFunction) +
+                Math.Abs(selectedItemFunction.PhysicallyActiveRating - userPhysicallyActiveRatingFunction) +
+                Math.Abs(selectedItemFunction.DesireForKidsRating - userDesireForKidsRatingFunction) +
+                Math.Abs(selectedItemFunction.SenseOfHumorRating - userSenseOfHumorRatingFunction) +
+                Math.Abs(selectedItemFunction.DrivenRating - UserDrivenRating));
 
-                }
+                compatibilityPercentageFunction = Math.Abs(Math.Round((difference / 54) * 100, 2) - 100);
 
-                return ReferencedPotential;
+            } catch (Exception e)
+            {
+                Debug.WriteLine("Exception thrown. Have user select object on list");
+                Debug.WriteLine(e.Message);
             }
-            set { SetField(ref ReferencedPotential, value); }
-        }
-
-        public double calculateCompatibilityPercentage()
-        {
-            double difference = (Math.Abs(ReferencedPotential.EnjoysSportsRating - userEnjoysSportsRatingFunction) +
-                Math.Abs(ReferencedPotential.FrugalityRating - userFrugalityRatingFunction) +
-                Math.Abs(ReferencedPotential.PhysicallyActiveRating - userPhysicallyActiveRatingFunction) +
-                Math.Abs(ReferencedPotential.DesireForKidsRating - userDesireForKidsRatingFunction) +
-                Math.Abs(ReferencedPotential.SenseOfHumorRating - userSenseOfHumorRatingFunction) +
-                Math.Abs(ReferencedPotential.DrivenRating - UserDrivenRating));
-
-            double percentage = Math.Abs(Math.Round((difference / 54) * 100, 2) - 100);
-
-            return percentage;
         }
 
         public ICommand AddPotentialCommand => addPotentialCommand ?? (addPotentialCommand = new SimpleCommand(
@@ -140,11 +146,11 @@ namespace CompatibilityCalculatorLogic
                 drivenRatingFunction = 0;
             }));
 
-        public ICommand UserStatCommand => userStatCommand ?? (userStatCommand = new SimpleCommand(
+        public ICommand CalcCompStats => calcCompStats ?? (calcCompStats = new SimpleCommand(
             () =>
             {
-
-                compatibilityPercentageFunction =  calculateCompatibilityPercentage();
+                Debug.WriteLine("We are in CalcCompStats ICommand");
+                calculateCompatibilityPercentage();
 
                 //potentialRepo.ChangeUserStats(new UserProfileStats(
                 //    userFirstNameFunction,
@@ -226,7 +232,7 @@ namespace CompatibilityCalculatorLogic
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine("We were unable to delete item from database.");
+                    Debug.WriteLine("Could not delete item from database.");
                     Debug.WriteLine(e);
                 }
             }));
