@@ -1,10 +1,20 @@
+/* Author: Spencer Stewart
+ * Last Updated: 10/4/2019
+ * Project: CompatibilityCalculator
+ *
+ * Description:
+ * 
+ * This class connects the view with the ViewModel.
+ * 
+ * It will create an instance of the ViewModel and it will be
+ * referenced for the 
+ * 
+ */
+
 using CompatibilityCalculatorDatabase;
 using CompatibilityCalculatorLogic;
 using CompatibilityCalculatorTypes;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Windows.Input;
-using Xamarin.Forms;
 
 namespace CompatibilityCalculatorXamarin
 {

@@ -1,4 +1,20 @@
-﻿using CompatibilityCalculatorTypes;
+﻿/* Author: Spencer Stewart
+ * Last Updated: 10/4/2019
+ * Project: DiningPhilosophers
+ *
+ * Description:
+ * 
+ * This is the driver program for our philosopher class.
+ * 
+ * We will create 5 forks and 5 philosophers. Each one
+ * will have a unique identity.
+ * 
+ * The philosophers will continue eating over and over
+ * indefinitely. This program simulates not losing a fork.
+ * 
+ */
+
+using CompatibilityCalculatorTypes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +27,6 @@ namespace CompatibilityCalculatorLogic
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-
         public ICommand addPotentialCommand;
         public ICommand calcCompStats;
         public ICommand resultsCommand;

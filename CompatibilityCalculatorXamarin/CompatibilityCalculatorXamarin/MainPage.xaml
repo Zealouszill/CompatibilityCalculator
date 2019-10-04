@@ -1,45 +1,69 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+ * Author: Spencer Stewart
+ * Last Updated: 10/4/2019
+ * Project: CompatibilityCalculator
+
+ * Description:
+ * 
+ * This is the view code for the MVVM model of the Compatibility Calculator.
+ * This will allow the user to input data for potential girlfriends.
+ * 
+ * This will also allow the user to add their own information and compare,
+ * results between the user and other potentials.
+ * 
+ * It will save the potentials in the database with persistent memory.
+ * 
+ * -->
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="CompatibilityCalculatorXamarin.MainPage"
-             
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
              xmlns:local="clr-namespace:CompatibilityCalculatorXamarin">
 
-    
+    <!-- Resource page to connect ViewModel with this page. -->
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:ViewModelLocator xmlns:vm="clr-namespace:CompatibilityCalculatorXamarin.ViewModelLocator" x:Key="Locator" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
+    <!-- Main grid for the entire program view. -->
     <Grid>
 
+        <!-- It will be comprised of 3 columns. Far left for switching menues. And the right
+        two thirds for the actual content we will be maniuplating. -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"></ColumnDefinition>
             <ColumnDefinition Width="3*"></ColumnDefinition>
             <ColumnDefinition Width="3*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-        </Grid.RowDefinitions>
-
+        <!-- Code for the far left panel. -->
         <StackLayout Grid.Column="0" BackgroundColor="LightGray">
+            
+            <!-- Label indicating what the program is. -->
             <Label 
                 Text="Compatibility Calculator!" 
                 Margin="0,40,0,0"
                 FontSize="Large" 
                 HorizontalTextAlignment="Center" 
                 VerticalTextAlignment="Center"></Label>
+            
+            <!-- Menu button to switch to the add or remove a potential. -->
             <Button 
                 x:Name="AddRemoveBtn" 
                 Margin="10,40,10,0" 
                 Text="Add or Remove Potential" 
                 Clicked="DisplayAddRemoveSL"
                 BackgroundColor="LightBlue"></Button>
+            
+            <!-- Button to switch the view to the comparison part. -->
             <Button 
                 x:Name="TestCompBtn" 
                 Margin="10,20,10,0" 
@@ -48,9 +72,8 @@
                 BackgroundColor="LightBlue"></Button>
         </StackLayout>
 
-        <!-- Code used to create "Add new user" and the "Remove User" interfaces. -->
+        <!-- XAML used to create "Add new potential" and the "Remove potential" interfaces. -->
         <Grid x:Name="AddRemoveGrid" Grid.Column="1" Grid.ColumnSpan="2" IsVisible="True">
-
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -58,24 +81,30 @@
 
             <!-- This is the new user column -->
             <StackLayout Grid.Column="0">
+
+                <!-- Information section title. -->
                 <Label Margin="0,75,0,0"
                     Text="Add New Potential" 
                     FontSize="Medium"
                     HorizontalTextAlignment="Center"></Label>
+
+                <!-- First name and last name for user. -->
                 <Label Margin="10,20,0,0" Text="First Name"></Label>
                 <Editor Margin="20,0,20,0" Text="{Binding firstNameFunction}"></Editor>
                 <Label Margin="10,20,0,0" Text="Last Name"></Label>
                 <Editor Margin="20,0,20,0" Text="{Binding lastNameFunction}"></Editor>
 
+                <!-- Simple line divider. -->
                 <BoxView WidthRequest="1" HeightRequest="1" Color="Black" Margin="10,20,10,0"></BoxView>
 
+                <!-- New grid to hold the left and right columns for name, and data entry. -->
                 <Grid Margin="20,20,20,0">
-
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    
+
+                    <!-- Question fields -->
                     <StackLayout Grid.Column="0">
                         <Label Margin="10,20,0,0" Text="Age?"></Label>
                         <Label Margin="10,20,0,0" Text="Enjoy's Sports?"></Label>
@@ -85,6 +114,7 @@
                         <Label Margin="10,20,0,0" Text="Sense of Humor?"></Label>
                         <Label Margin="10,20,0,0" Text="Driven?"></Label>
 
+                        <!-- Button to Add a Potential to the database. -->
                         <Button 
                             Text="Add Potential" 
                             Grid.ColumnSpan="1" 
@@ -93,6 +123,7 @@
                             BackgroundColor="LightBlue"/>
                     </StackLayout>
 
+                    <!-- Grid to hold the controls for data input from the user. -->
                     <StackLayout Grid.Column="1">
                         <Editor Margin="10,8,0,0" Text="{Binding ageFunction}"></Editor>
                         <Editor Margin="10,8,0,0" Text="{Binding enjoysSportsRatingFunction}"></Editor>
@@ -102,29 +133,24 @@
                         <Editor Margin="10,8,0,0" Text="{Binding senseOfHumorRatingFunction}"></Editor>
                         <Editor Margin="10,8,0,0" Text="{Binding drivenRatingFunction}"></Editor>
                     </StackLayout>
-
-
-
-
                 </Grid>
-                
             </StackLayout>
-
 
             <!-- This is the remove user column -->
             <StackLayout Grid.Column="1">
 
+                <!-- Title for remove Potential -->
                 <Label Margin="0,75,0,0"
                     Text="Remove Potential" 
                     FontSize="Medium"
                     HorizontalTextAlignment="Center"></Label>
 
+                <!-- Layout to hold the list of potentials for user. -->
                 <StackLayout HeightRequest="200" Margin="10,20,10,0">
                     <ListView WidthRequest="200" 
                               BackgroundColor="LightGray" 
                               ItemsSource="{Binding ListOfAllPotentials}" 
                               SelectedItem="{Binding selectedItemFunction, Mode=TwoWay}">
-
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -140,13 +166,14 @@
                     </ListView>
                 </StackLayout>
 
+                <!-- Grid to hold the button and format it. -->
                 <Grid Margin="20,20,20,0">
-
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
+                    <!-- Button to remove potential from database -->
                     <StackLayout Grid.Column="0">
                         <Button 
                             Text="Remove Potential" 
@@ -154,37 +181,35 @@
                             Command="{Binding RemovePotentialCommand}"
                             BackgroundColor="LightBlue"/>
                     </StackLayout>
-                    
                 </Grid>
-
-                
             </StackLayout>
-
         </Grid>
 
+        <!-- XAML used to add the user's information and compare it with the list of potentials. -->
         <Grid x:Name="TestCompGrid" Grid.Column="1" Grid.ColumnSpan="2" IsVisible="False">
-
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <!-- This is the new user column -->
+            <!-- This is the user information column. -->
             <StackLayout Grid.Column="0">
                 <Label Margin="0,75,0,0"
                     Text="Your Stats" 
                     FontSize="Medium"
                     HorizontalTextAlignment="Center"></Label>
 
+                <!-- Simple black line separator. -->
                 <BoxView WidthRequest="1" HeightRequest="1" Color="Black" Margin="10,20,10,0"></BoxView>
 
+                <!-- Left column holding controls of user data entry column. -->
                 <Grid Margin="20,20,20,0">
-
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
+                    <!-- List the requirements for the user. -->
                     <StackLayout Grid.Column="0">
                         <Label Margin="10,20,0,0" Text="Age?"></Label>
                         <Label Margin="10,20,0,0" Text="Enjoy's Sports?"></Label>
@@ -193,10 +218,9 @@
                         <Label Margin="10,20,0,0" Text="Desire For Kids?"></Label>
                         <Label Margin="10,20,0,0" Text="Sense of Humor?"></Label>
                         <Label Margin="10,20,0,0" Text="Driven?"></Label>
-
-                        
                     </StackLayout>
 
+                    <!-- Data entry section for users's info. -->
                     <StackLayout Grid.Column="1">
                         <Editor Margin="10,8,0,0" Text="{Binding userAgeFunction}"></Editor>
                         <Editor Margin="10,8,0,0" Text="{Binding userEnjoysSportsRatingFunction}"></Editor>
@@ -206,29 +230,24 @@
                         <Editor Margin="10,8,0,0" Text="{Binding userSenseOfHumorRatingFunction}"></Editor>
                         <Editor Margin="10,8,0,0" Text="{Binding userDrivenRatingFunction}"></Editor>
                     </StackLayout>
-
-
-
-
                 </Grid>
-
             </StackLayout>
-
 
             <!-- This is the remove user column -->
             <StackLayout Grid.Column="1">
 
+                <!-- Title for the user column. -->
                 <Label Margin="0,75,0,0"
                     Text="Available Potentials" 
                     FontSize="Medium"
                     HorizontalTextAlignment="Center"></Label>
 
+                <!-- List of the potentials that the user inputed. -->
                 <StackLayout HeightRequest="200" Margin="10,20,10,0">
                     <ListView WidthRequest="200" 
                               BackgroundColor="LightGray" 
                               ItemsSource="{Binding ListOfAllPotentials}" 
                               SelectedItem="{Binding selectedItemFunction, Mode=TwoWay}">
-
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -244,13 +263,14 @@
                     </ListView>
                 </StackLayout>
 
+                <!-- Column and formatting for the Calculate Compatibilty button. -->
                 <Grid Margin="20,20,20,0">
-
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
+                    <!-- Button to calculate the values. -->
                     <StackLayout Grid.Column="0">
                         <Button 
                             Text="Calculate Compatibility" 
@@ -261,119 +281,14 @@
                     </StackLayout>
                 </Grid>
 
+                <!-- Output data for the calculation. -->
                 <StackLayout>
                     <StackLayout Grid.Column="1" Orientation="Horizontal" Margin="20,20,20,0">
                         <Label Text="Your compatibility percentage is: "></Label>
                         <Label Text="{Binding compatibilityPercentageFunction}"></Label>
                     </StackLayout>
                 </StackLayout>
-
-
             </StackLayout>
         </Grid>
-
-
     </Grid>
-    
-    
-    <!--
-    
-    <Grid>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
-            <ColumnDefinition Width="3*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="5*"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="5*"></RowDefinition>
-        </Grid.RowDefinitions>
-
-
-        <StackLayout Grid.Column="0" Margin="10,10,10,10">
-            <Label Text="First Name:" Margin="5,5,5,5"></Label>
-            <Label Text="Last Name:" Margin="5,5,5,5"></Label>
-            <Label Text="Age:" Margin="5,5,5,5"></Label>
-            <Label Text="Enjoy Sports?" Margin="5,5,5,5"></Label>
-            <Label Text="Frugality?" Margin="5,5,5,5"></Label>
-            <Label Text="Physically Active?" Margin="5,5,5,5"></Label>
-            <Label Text="Desire for Kids?" Margin="5,5,5,5"></Label>
-            <Label Text="Sense Of Humor?" Margin="5,5,5,5"></Label>
-            <Label Text="Driven?" Margin="5,5,5,5"></Label>
-            <Button Text="Nothing here"></Button>
-            <Label Text="Additional Details" Margin="5,5,5,5"></Label>
-
-            <Button Text="Add Potential" Command="{Binding UserStatCommand}"/>
-            <Button Text="Nothing here"></Button>
-            <Button Text="Nothing here"></Button>
-            <Button Text="Nothing here"></Button>
-        </StackLayout>
-
-
-
-        <StackLayout Grid.Column="1" Margin="10,10,10,10">
-            <Entry Text="{Binding firstNameFunction}"></Entry>
-            <Entry Text="{Binding lastNameFunction}"></Entry>
-            <Entry Text="{Binding ageFunction}"></Entry>
-            <Entry Text="{Binding enjoysSportsRatingFunction}"></Entry>
-            <Entry Text="{Binding frugalityRatingFunction}"></Entry>
-            <Entry Text="{Binding physicallyActiveRatingFunction}"></Entry>
-            <Entry Text="{Binding desireForKidsRatingFunction}"></Entry>
-            <Entry Text="{Binding senseOfHumorRatingFunction}"></Entry>
-            <Entry Text="{Binding drivenRatingFunction}"></Entry>
-            <Entry Text="{Binding additionalDetailsFunction}"></Entry>
-        </StackLayout>
-
-        <StackLayout Grid.Column="0" Grid.Row="2" Margin="10,10,10,10">
-            <Label Text="First Name:" Margin="5,5,5,5"></Label>
-            <Label Text="Last Name:" Margin="5,5,5,5"></Label>
-            <Label Text="Age:" Margin="5,5,5,5"></Label>
-            <Label Text="Enjoy's Sports Rating:" Margin="5,5,5,5"></Label>
-            <Label Text="Frugality Rating:" Margin="5,5,5,5"></Label>
-            <Label Text="Physically Active Rating:" Margin="5,5,5,5"></Label>
-            <Label Text="Desire for Kids Rating:" Margin="5,5,5,5"></Label>
-            <Label Text="Sense of Humor Rating:" Margin="5,5,5,5"></Label>
-            <Label Text="Driven Rating:" Margin="5,5,5,5"></Label>
-            <Label Text="Additional Details" Margin="5,5,5,5"></Label>
-        </StackLayout>
-
-        <StackLayout Grid.Column="1" Grid.Row="2" Margin="10,10,10,10">
-            <Label Text="{Binding Path = FirstName}" Margin="5,5,5,5"></Label>
-            <Label Text="{Binding Path = LastName}" Margin="5,5,5,5"></Label>
-            <Label Text="{Binding Path = Age}" Margin="5,5,5,5"></Label>
-            <Label Text="{Binding Path = EnjoysSportsRating}" Margin="5,5,5,5"></Label>
-            <Label Text="{Binding Path = FrugalityRating}" Margin="5,5,5,5"></Label>
-            <Label Text="{Binding Path = PhysicallyActiveRating}" Margin="5,5,5,5"></Label>
-            <Label Text="{Binding Path = DesireForKidsRating}" Margin="5,5,5,5"></Label>
-            <Label Text="{Binding Path = SenseOfHumorRating}" Margin="5,5,5,5"></Label>
-            <Label Text="{Binding Path = DrivenRating}" Margin="5,5,5,5"></Label>
-            <Label Text="{Binding Path = AdditionalDetails}" Margin="5,5,5,5"></Label>
-        </StackLayout>
-
-        <ListView Grid.Column="2" Grid.Row="2">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Orientation="Horizontal">
-                        <Entry Text="{Binding FirstName}"/>
-                        <Entry Text="  "/>
-                        <Entry Text="{Binding LastName}"/>
-                        <Entry Text="      Id: "/>
-                        <Entry Text="{Binding Id}"/>
-                    </StackLayout>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <ListView>
-
-        </ListView>
-
-    </Grid>
-
-    -->
-
-
 </ContentPage>
