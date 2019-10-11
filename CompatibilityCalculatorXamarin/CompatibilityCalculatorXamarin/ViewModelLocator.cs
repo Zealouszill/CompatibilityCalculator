@@ -1,5 +1,5 @@
 /* Author: Spencer Stewart
- * Last Updated: 10/4/2019
+ * Last Updated: 10/11/2019
  * Project: CompatibilityCalculator
  *
  * Description:
@@ -7,38 +7,27 @@
  * This class connects the view with the ViewModel.
  * 
  * It will create an instance of the ViewModel and it will be
- * referenced for the 
+ * referenced for the data input.
  * 
  */
 
 using CompatibilityCalculatorDatabase;
 using CompatibilityCalculatorLogic;
 using CompatibilityCalculatorTypes;
-using System.Diagnostics;
 
 namespace CompatibilityCalculatorXamarin
 {
     public class ViewModelLocator
     {
-        //PotentialRepository testRepo;
-        //public MainViewModel Main { get; } = new MainViewModel(testRepo);
+        // Create out MainViewModel
+        public MainViewModel Main { get; }
 
         public ViewModelLocator()
         {
+            // Set up a new variables to instantiate our main view model.
             IDataStorage testStorage = new SqliteDataStore();
             PotentialRepository testRepo = new PotentialRepository(testStorage);
-            //BuildAvaloniaApp().Start<MainWindow>(() => new MainViewModel(testRepo));
-            //Main = new MainViewModel(testRepo);
             Main = new MainViewModel(testRepo);
-
-            Debug.WriteLine("This code segment was executed");
-            
         }
-
-
-        public MainViewModel Main { get; }
-
-        //public MainViewModel Main { get; } = new MainViewModel(testRepo);
-
     }
 }

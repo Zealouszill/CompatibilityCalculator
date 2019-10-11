@@ -1,16 +1,14 @@
 ﻿/* Author: Spencer Stewart
- * Last Updated: 10/4/2019
- * Project: DiningPhilosophers
+ * Last Updated: 10/11/2019
+ * Project: CompatibilityCalculator
  *
  * Description:
  * 
- * This is the driver program for our philosopher class.
+ * This is the MainViewModel for the Compatibility Calculator project.
  * 
- * We will create 5 forks and 5 philosophers. Each one
- * will have a unique identity.
- * 
- * The philosophers will continue eating over and over
- * indefinitely. This program simulates not losing a fork.
+ * This will take data for various fields from the view. It also has the
+ * potential to run different commands. Such as inserting data into the 
+ * database, and removing data from the database.
  * 
  */
 
