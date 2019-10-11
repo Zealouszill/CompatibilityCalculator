@@ -1,4 +1,16 @@
-﻿using System;
+﻿/* Author: Spencer Stewart
+ * Last Updated: 10/11/2019
+ * Project: CompatibilityCalculator
+ *
+ * Description:
+ * 
+ * This class implements command functionality
+ * 
+ * It will take an event and handle it appropriately.
+ * 
+ */
+
+using System;
 using System.Windows.Input;
 
 namespace CompatibilityCalculatorTypes

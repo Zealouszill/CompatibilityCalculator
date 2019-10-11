@@ -7,7 +7,7 @@
  * This class connects the view with the ViewModel.
  * 
  * It will create an instance of the ViewModel and it will be
- * referenced for the data input.
+ * referenced for the data input. 
  * 
  */
 
