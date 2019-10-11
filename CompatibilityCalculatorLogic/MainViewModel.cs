@@ -25,84 +25,46 @@ namespace CompatibilityCalculatorLogic
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+
+        // ICommands for the different commands from the View.
         public ICommand addPotentialCommand;
         public ICommand calcCompStats;
-        public ICommand resultsCommand;
         public ICommand removePotentialCommand;
 
+        // Collection of all potentials we have stored.
+        public ObservableCollection<Potential> ListOfAllPotentials { get; private set; }
 
-        private readonly IDataStorage dataStorage;
+        // Create our Repository.
+        private readonly PotentialRepository potentialRepo;
 
-        public MainViewModel()
-        {
-            TestString = "This word";
+        // Defautl Constructor.
+        public MainViewModel() { }
 
-            ListOfAllPotentials = new ObservableCollection<Potential>(dataStorage.GetAllPotentials());
-        }
-
+        // Constructor to set up our list of Potentials saved in
+        // the Database.
         public MainViewModel(PotentialRepository potentialRepo)
         {
-
+            // Set the class potentialRepo, to the one we want passed in.
             this.potentialRepo = potentialRepo;
 
-            //var p = dataStore.GetById(2);
-            //Console.WriteLine(ListOfAllPotentials[0].FirstName);
+            // Get list of potentials from the Database. Otherwise, throw an exception.
             try
             {
                 ListOfAllPotentials = new ObservableCollection<Potential>(this.potentialRepo.GetAllPotentials());
             }
             catch (Exception e)
             {
-
+                Console.WriteLine("Was unsuccessful in attempted to get Potentials from Database.");
+                Console.WriteLine("Exception Message: " + e.Message);
             }
-
-            var temp = potentialRepo.GetUserStats();
-
-            userFirstNameFunction = temp.FirstName;
-            userLastNameFunction = temp.LastName;
-            userAgeFunction = temp.Age;
-            userEnjoysSportsRatingFunction = temp.EnjoysSportsRating;
-            userFrugalityRatingFunction = temp.FrugalityRating;
-            userPhysicallyActiveRatingFunction = temp.PhysicallyActiveRating;
-            userDesireForKidsRatingFunction = temp.DesireForKidsRating;
-            userSenseOfHumorRatingFunction = temp.SenseOfHumorRating;
-            userDrivenRatingFunction = temp.DrivenRating;
-
         }
 
-
-        public IDataStorage DataStore => dataStorage;
-
-        private readonly PotentialRepository potentialRepo;
-
-        private string TestString;
-        public string testStringFunction
-        {
-            get { return TestString; }
-            set { SetField(ref TestString, value); }
-        }
-
-        //private Potential ReferencedPotential;
-        //public Potential referencedPotentialFunction
-        //{
-        //    get
-        //    {
-        //        try
-        //        {
-        //            compatibilityPercentageFunction = calculateCompatibilityPercentage();
-        //        }
-        //        catch
-        //        {
-
-        //        }
-
-        //        return ReferencedPotential;
-        //    }
-        //    set { SetField(ref ReferencedPotential, value); }
-        //}
-
+        // This method will calculate the percentage between the user and the potential
+        // that they have selected.
         public void calculateCompatibilityPercentage()
         {
+            // This will calculator the percentage in each category of the stats.
+            // It will then calcalate the compatibility percentage for the user.
             try
             {
                 double difference = (Math.Abs(selectedItemFunction.EnjoysSportsRating - userEnjoysSportsRatingFunction) +
@@ -114,13 +76,16 @@ namespace CompatibilityCalculatorLogic
 
                 compatibilityPercentageFunction = Math.Abs(Math.Round((difference / 54) * 100, 2) - 100);
 
-            } catch (Exception e)
+            } 
+            catch (Exception e)
             {
-                Debug.WriteLine("Exception thrown. Have user select object on list");
+                Debug.WriteLine("Exception thrown. User did not select a potential on the list.");
                 Debug.WriteLine(e.Message);
             }
         }
 
+        // This command will take the values from the view and create a new potential from it.
+        // It will then call the necessary commands to save the data into the database.
         public ICommand AddPotentialCommand => addPotentialCommand ?? (addPotentialCommand = new SimpleCommand(
             () =>
             {
@@ -128,8 +93,7 @@ namespace CompatibilityCalculatorLogic
             },
             () =>
             {
-                //Potential test = new Potential();
-
+                // Create a new potential for this scope's reference.
                 Potential tempPot = new Potential(
                     firstNameFunction,
                     lastNameFunction,
@@ -142,12 +106,12 @@ namespace CompatibilityCalculatorLogic
                     drivenRatingFunction
                     );
 
+                // Add the potential to the database. Then add it to our observable collection
+                // For display.
                 potentialRepo.AddPotential(tempPot);
                 ListOfAllPotentials.Add(tempPot);
 
-                //Potentials.Clear();
-                //foreach (var c in potentialRepo.GetAllPotentials())
-                //    Potentials.Add(c);
+                // Reset the view values back to empty.
                 firstNameFunction = null;
                 lastNameFunction = null;
                 ageFunction = 0;
@@ -159,85 +123,20 @@ namespace CompatibilityCalculatorLogic
                 drivenRatingFunction = 0;
             }));
 
+        // This command will call the calculateCompatibilityPercentage method.
         public ICommand CalcCompStats => calcCompStats ?? (calcCompStats = new SimpleCommand(
             () =>
             {
-                Debug.WriteLine("We are in CalcCompStats ICommand");
                 calculateCompatibilityPercentage();
-
-                //potentialRepo.ChangeUserStats(new UserProfileStats(
-                //    userFirstNameFunction,
-                //    userLastNameFunction,
-                //    userAgeFunction,
-                //    userEnjoysSportsRatingFunction,
-                //    userFrugalityRatingFunction,
-                //    userPhysicallyActiveRatingFunction,
-                //    userDesireForKidsRatingFunction,
-                //    userSenseOfHumorRatingFunction,
-                //    userDrivenRatingFunction
-                //    ));
-
             }));
 
-        //potentialRepo.AddUserProfile(new UserProfileStats(
-        //userFirstNameFunction,
-        //    userLastNameFunction,
-        //    userAgeFunction,
-        //    userEnjoysSportsRatingFunction,
-        //    userFrugalityRatingFunction,
-        //    userPhysicallyActiveRatingFunction,
-        //    userDesireForKidsRatingFunction,
-        //    userSenseOfHumorRatingFunction,
-        //    userDrivenRatingFunction));
-
-        //Potentials.Clear();
-        //foreach (var c in potentialRepo.GetAllPotentials())
-        //    Potentials.Add(c);
-        //FirstName = null;
-
-        /*  
-            FirstName = firstName;
-            LastName = lastName;
-            Age = age;
-            EnjoysSportsRating = enjoysSportsRating;
-            FrugalityRating = frugalityRating;
-            PhysicallyActiveRating = physicallyActiveRating;
-            DesireForKidsRating = desireForKidsRating;
-            SenseOfHumorRating = senseOfHumorRating;
-            DrivenRating = drivenRating;
-         */
-
-
-
-        //public ICommand GetDBResults => resultsCommand ?? (resultsCommand = new SimpleCommand(
-        //    () =>
-        //    {
-        //        Potential tempPotential = potentialRepo.GetASpecificId(IdSelection);
-
-        //        firstNameResultsFunction = tempPotential.FirstName;
-        //        lastNameResultsFunction = tempPotential.LastName;
-        //        ageResultsFunction = tempPotential.Age;
-        //        enjoysSportsRatingResultsFunction = tempPotential.EnjoysSportsRating;
-        //        frugalityResultsFunction = tempPotential.EnjoysSportsRating;
-        //        desireForKidsRatingResultsFunction = tempPotential.DesireForKidsRating;
-        //        senseOfHumorRatingResultsFunction = tempPotential.SenseOfHumorRating;
-        //        drivenRatingResultsFunction = tempPotential.DrivenRating;
-
-
-        //        //firstNameResultsFunction = potentialRepo.GetASpecificId(IdSelection).FirstName;
-
-        //        //FirstName = firstName;
-        //        //LastName = lastName;
-        //        //Age = age;
-        //        //PersonalityRating = personalityRating;
-        //        //EnjoysSports = enjoysSports;
-        //    }));
-
-
-
+        // This command will call the needed methods to find the desired potential in the database.
+        // and have it removed.
         public ICommand RemovePotentialCommand => removePotentialCommand ?? (removePotentialCommand = new SimpleCommand(
             () =>
             {
+                // Try to remove the potential if it is found in the database.
+                // Otherwise throw an exception.
                 try
                 {
                     potentialRepo.RemovePotentialById(selectedItemFunction.Id);
@@ -250,16 +149,10 @@ namespace CompatibilityCalculatorLogic
                 }
             }));
 
-
-
-        //public ICommand AddPotentialCommand => addPotentialCommand ?? (addPotentialCommand = new SimpleCommand(() => ChildControlViewModel = new AddCardViewModel(cardRepo)));
-        //public ICommand AddPotentialCommand => addPotentialCommand ?? (addPotentialCommand = new SimpleCommand(() => ChildControlViewModel = new AddPotentialViewModel(potentialRepo)));
-
-        //public object ChildControlViewModel { get; set; }
-
-        public ObservableCollection<Potential> ListOfAllPotentials { get; private set; }
-
-        /* Compatibility Percentage */
+        /* ***Compatibility Percentage***
+         * These functions are needed to calculate the percentage of the
+         * user and the selected potential.
+         */
 
         private Potential SelectedItem;
         public Potential selectedItemFunction
@@ -340,90 +233,8 @@ namespace CompatibilityCalculatorLogic
             set { SetField(ref PotentialDrivenRating, value); }
         }
 
-        /* End Display Database Values Code Block 
-         * Add and remove Functionality Code block: */
-
-        private int IdSelection;
-        public int idSelectionFunction
-        {
-            get { return IdSelection; }
-            set { SetField(ref IdSelection, value); }
-        }
-
-        private int RemovePotentialID;
-        public int removePotentialIDFunction
-        {
-            get { return RemovePotentialID; }
-            set { SetField(ref RemovePotentialID, value); }
-        }
-
-        /* End Add and remove Functionality Code block
-         * Show results Code block: */
-
-        private string FirstNameResults;
-        public string firstNameResultsFunction
-        {
-            get { return FirstNameResults; }
-            set { SetField(ref FirstNameResults, value); }
-        }
-
-        private string LastNameResults;
-        public string lastNameResultsFunction
-        {
-            get { return LastNameResults; }
-            set { SetField(ref LastNameResults, value); }
-        }
-
-        private int AgeResults;
-        public int ageResultsFunction
-        {
-            get { return AgeResults; }
-            set { SetField(ref AgeResults, value); }
-        }
-
-        private int EnjoysSportsRatingResults;
-        public int enjoysSportsRatingResultsFunction
-        {
-            get { return EnjoysSportsRatingResults; }
-            set { SetField(ref EnjoysSportsRatingResults, value); }
-        }
-
-        private int FrugalityRatingResults;
-        public int frugalityResultsFunction
-        {
-            get { return FrugalityRatingResults; }
-            set { SetField(ref FrugalityRatingResults, value); }
-        }
-
-        private int PhysicallyActiceRatingResults;
-        public int physicallyActiveResultsFunction
-        {
-            get { return PhysicallyActiceRatingResults; }
-            set { SetField(ref PhysicallyActiceRatingResults, value); }
-        }
-
-        private int DesireForKidsRatingResults;
-        public int desireForKidsRatingResultsFunction
-        {
-            get { return DesireForKidsRatingResults; }
-            set { SetField(ref DesireForKidsRatingResults, value); }
-        }
-
-        private int PotentialSenseOfHumorRatingResults;
-        public int senseOfHumorRatingResultsFunction
-        {
-            get { return PotentialSenseOfHumorRatingResults; }
-            set { SetField(ref PotentialSenseOfHumorRatingResults, value); }
-        }
-
-        private int DrivenRatingResults;
-        public int drivenRatingResultsFunction
-        {
-            get { return DrivenRatingResults; }
-            set { SetField(ref DrivenRatingResults, value); }
-        }
-
-        /* End  Show results Code block
+        /* End Display Database Values Code Block.
+         * 
          * Start of Compatability input code for user: */
 
         private string UserFirstName;
@@ -489,19 +300,8 @@ namespace CompatibilityCalculatorLogic
             set { SetField(ref UserDrivenRating, value); }
         }
 
-        /*  
-         *  Id = id;
-            FirstName = firstName;
-            LastName = lastName;
-            Age = age;
-            EnjoysSportsRating = enjoysSportsRating;
-            FrugalityRating = frugalityRating;
-            PhysicallyActiveRating = physicallyActiveRating;
-            DesireForKidsRating = desireForKidsRating;
-            SenseOfHumorRating = senseOfHumorRating;
-            DrivenRating = drivenRating;
-         */
-
+        // These methods are used to change the property of variable,
+        // if there is ever any data inputed into the control fields in the view.
         #region INotifyPropertyChanged Implementation
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
